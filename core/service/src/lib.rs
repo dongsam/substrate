@@ -312,6 +312,8 @@ macro_rules! new_impl {
 				None => 0,
 			};
 
+			println!("{}", num_peers);
+
 			// get cpu usage and memory usage of this process
 			let (cpu_usage, memory) = if let Some(self_pid) = self_pid {
 				if sys.refresh_process(self_pid) {
@@ -341,6 +343,7 @@ macro_rules! new_impl {
 			Ok(())
 		}).select(exit.clone()).then(|_| Ok(()));
 		let _ = to_spawn_tx.unbounded_send(Box::new(tel_task));
+		
 
 		// RPC
 		let (system_rpc_tx, system_rpc_rx) = futures03::channel::mpsc::unbounded();
